@@ -28,7 +28,6 @@ Statistics for keymaps in Neovim
 
 ```lua
 -- TODO
-require('btw').setup({})
 ```
 
 ## TODO
