@@ -25,7 +25,7 @@ H.create_autocommands = function()
 
   vim.api.nvim_create_autocmd("VimLeavePre", {
     callback = function()
-      H.sync_report_from_file()
+      -- H.sync_report_from_file()
       H.write_report_file()
     end,
   })
@@ -46,7 +46,7 @@ end
 H.get_keymap_callback = function(keymap)
   return function()
     vim.schedule(function()
-      H.update_key_counts(keymap)
+      H.update_key_counts(keymap) -- FIXME: call 1, but count 2
     end)
 
     if keymap.callback then
@@ -57,6 +57,11 @@ H.get_keymap_callback = function(keymap)
       local cmd = keymap.rhs:gsub("<Cmd>", "")
       cmd = cmd:gsub("<CR>", "")
       return vim.cmd(cmd)
+    end
+
+    -- If start with : then it's a command
+    if keymap.rhs:sub(1, 1) == ":" then
+      return vim.cmd(keymap.rhs:sub(2))
     end
 
     return keymap.rhs
