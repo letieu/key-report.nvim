@@ -61,7 +61,9 @@ H.get_keymap_callback = function(keymap)
 
     -- If start with : then it's a command
     if keymap.rhs:sub(1, 1) == ":" then
-      return vim.cmd(keymap.rhs:sub(2))
+      local cmd = keymap.rhs:sub(2)
+      cmd = cmd:gsub("<CR>", "")
+      return vim.cmd(cmd)
     end
 
     return keymap.rhs
